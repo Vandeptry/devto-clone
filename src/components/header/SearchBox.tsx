@@ -7,7 +7,7 @@ interface SearchProps {
 
 const SearchBox: React.FC<SearchProps> = ({ className }) => {
   return (
-    <div className={`relative flex items-center w-full ${className || ''}`}>
+    <div className={`relative flex items-center w-full ${className ?? ''}`}>
       <input
         type="text"
         placeholder="Search..."

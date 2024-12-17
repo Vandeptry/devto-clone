@@ -7,7 +7,7 @@ interface AuthButtonsProps {
 
 const AuthButtons: React.FC<AuthButtonsProps> = ({ className }) => {
   return (
-    <div className={`flex items-center space-x-4 whitespace-nowrap ${className || ''}`}>
+    <div className={`flex items-center space-x-4 whitespace-nowrap ${className ?? ''}`}>
       <Link key="login" href="/enter" className="text-gray-700 hover:text-gray-900 hidden md:block text-sm whitespace-nowrap">
         Log in
       </Link>
