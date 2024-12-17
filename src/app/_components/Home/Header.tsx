@@ -5,7 +5,7 @@ import Logo from "~/components/header/Logo";
 import SearchBox from "~/components/header/SearchBox";
 import AuthButtons from "~/components/header/AuthButton";
 import { Search, Menu } from 'lucide-react';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 
 interface HeaderProps {
   setIsLeftbarOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -14,7 +14,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ setIsLeftbarOpen }) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const searchBoxRef = useRef<HTMLDivElement>(null);
-  const searchIconRef = useRef<HTMLButtonElement>(null); // Ref cho icon tìm kiếm
+  const searchIconRef = useRef<HTMLButtonElement>(null);
 
   const toggleLeftbar = () => {
     setIsLeftbarOpen(prev => !prev);
@@ -24,21 +24,23 @@ const Header: React.FC<HeaderProps> = ({ setIsLeftbarOpen }) => {
     setIsSearchOpen(prev => !prev);
   };
 
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (searchBoxRef.current && !searchBoxRef.current.contains(event.target as Node) && searchIconRef.current && !searchIconRef.current.contains(event.target as Node)) {
-                setIsSearchOpen(false);
-            }
-        };
+  const handleClickOutside = useCallback((event: MouseEvent) => {
+    if (searchBoxRef.current && !searchBoxRef.current.contains(event.target as Node) && searchIconRef.current && !searchIconRef.current.contains(event.target as Node)) {
+      setIsSearchOpen(false);
+    }
+  }, []);
 
-        if (isSearchOpen) {
-            document.addEventListener("mousedown", handleClickOutside);
-        }
+  useEffect(() => {
+    if (isSearchOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
 
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [isSearchOpen]);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isSearchOpen, handleClickOutside]);
 
   return (
     <header className="bg-white shadow-md py-2 sticky top-0 z-50 w-full border-b border-gray-200">
@@ -60,9 +62,9 @@ const Header: React.FC<HeaderProps> = ({ setIsLeftbarOpen }) => {
               </div>
             </div>
           )}
-            <div className="hidden md:flex">
-                <SearchBox className="w-96 mr-4"/>
-            </div>
+          <div className="hidden md:flex">
+            <SearchBox className="w-96 mr-4"/>
+          </div>
           <AuthButtons />
         </div>
       </div>

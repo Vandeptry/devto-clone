@@ -3,7 +3,7 @@ import { z } from "zod";
 
 export const env = createEnv({
   server: {
-    AUTH_SECRET: z.string(), // Bỏ điều kiện NODE_ENV, luôn là string
+    AUTH_SECRET: z.string(),
     AUTH_DISCORD_ID: z.string(),
     AUTH_DISCORD_SECRET: z.string(),
     DATABASE_URL: z.string().url(),
@@ -12,7 +12,6 @@ export const env = createEnv({
       .default("development"),
   },
   client: {
-    // NEXT_PUBLIC_CLIENTVAR: z.string(),
   },
   runtimeEnv: {
     AUTH_SECRET: process.env.AUTH_SECRET,

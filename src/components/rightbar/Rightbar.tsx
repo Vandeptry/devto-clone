@@ -1,4 +1,4 @@
-//src/components/rightbar/Rightbar.tsx
+// src/components/rightbar/Rightbar.tsx
 import Link from 'next/link';
 
 interface Tag {
@@ -7,48 +7,37 @@ interface Tag {
 }
 
 const tags: Tag[] = [
-    { name: 'webdev', url: '/t/webdev' },
-    { name: 'javascript', url: '/t/javascript' },
-    { name: 'programming', url: '/t/programming' },
-    { name: 'beginners', url: '/t/beginners' },
-    { name: 'tutorial', url: '/t/tutorial' },
-    { name: 'ai', url: '/t/ai' },
-    { name: 'devops', url: '/t/devops' },
-    { name: 'python', url: '/t/python' },
-    { name: 'react', url: '/t/react' },
-    { name: 'productivity', url: '/t/productivity' },
-    { name: 'css', url: '/t/css' },
-    { name: 'html', url: '/t/html' },
-    { name: 'nodejs', url: '/t/nodejs' },
-    { name: 'backend', url: '/t/backend' },
-    { name: 'frontend', url: '/t/frontend' },
-    { name: 'database', url: '/t/database' },
-    { name: 'security', url: '/t/security' },
-    { name: 'testing', url: '/t/testing' },
-    { name: 'career', url: '/t/career' },
-    { name: 'learning', url: '/t/learning' },
-    { name: 'git', url: '/t/git' },
-    { name: 'github', url: '/t/github' },
-    { name: 'software-development', url: '/t/software-development' },
-    { name: 'cloud-computing', url: '/t/cloud-computing' },
-    { name: 'mobile-development', url: '/t/mobile-development' },
-    { name: 'android', url: '/t/android' },
-    { name: 'ios', url: '/t/ios' },
-    { name: 'design', url: '/t/design' },
-    { name: 'ux', url: '/t/ux' },
-    { name: 'ui', url: '/t/ui' },
-    // { name: 'algorithms', url: '/t/algorithms' },
-    // { name: 'data-structures', url: '/t/data-structures' },
-    // { name: 'machine-learning', url: '/t/machine-learning' },
-    // { name: 'data-science', url: '/t/data-science' },
-    // { name: 'cybersecurity', url: '/t/cybersecurity' },
-    // { name: 'web-security', url: '/t/web-security' },
-    // { name: 'best-practices', url: '/t/best-practices' },
-    // { name: 'coding-tips', url: '/t/coding-tips' },
-    // { name: 'interview-questions', url: '/t/interview-questions' },
-    // { name: 'remote-work', url: '/t/remote-work' },
-    // { name: 'open-source', url: '/t/open-source' },
-  ];
+  { name: 'webdev', url: '/t/webdev' },
+  { name: 'javascript', url: '/t/javascript' },
+  { name: 'programming', url: '/t/programming' },
+  { name: 'beginners', url: '/t/beginners' },
+  { name: 'tutorial', url: '/t/tutorial' },
+  { name: 'ai', url: '/t/ai' },
+  { name: 'devops', url: '/t/devops' },
+  { name: 'python', url: '/t/python' },
+  { name: 'react', url: '/t/react' },
+  { name: 'productivity', url: '/t/productivity' },
+  { name: 'css', url: '/t/css' },
+  { name: 'html', url: '/t/html' },
+  { name: 'nodejs', url: '/t/nodejs' },
+  { name: 'backend', url: '/t/backend' },
+  { name: 'frontend', url: '/t/frontend' },
+  { name: 'database', url: '/t/database' },
+  { name: 'security', url: '/t/security' },
+  { name: 'testing', url: '/t/testing' },
+  { name: 'career', url: '/t/career' },
+  { name: 'learning', url: '/t/learning' },
+  { name: 'git', url: '/t/git' },
+  { name: 'github', url: '/t/github' },
+  { name: 'software-development', url: '/t/software-development' },
+  { name: 'cloud-computing', url: '/t/cloud-computing' },
+  { name: 'mobile-development', url: '/t/mobile-development' },
+  { name: 'android', url: '/t/android' },
+  { name: 'ios', url: '/t/ios' },
+  { name: 'design', url: '/t/design' },
+  { name: 'ux', url: '/t/ux' },
+  { name: 'ui', url: '/t/ui' },
+];
 
 const Rightbar = () => {
   return (
@@ -56,7 +45,7 @@ const Rightbar = () => {
       <h2 className="text-lg font-medium mb-4">Popular Tags</h2>
       <ul className="space-y-2">
         {tags.map((tag) => (
-          <li key={tag.name}>
+          <li key={tag.name}> {/* Đảm bảo có key prop */}
             <Link
               href={tag.url}
               className="text-gray-700 hover:text-blue-500 block"
