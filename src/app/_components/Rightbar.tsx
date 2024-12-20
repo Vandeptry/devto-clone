@@ -41,14 +41,14 @@ const tags: Tag[] = [
 
 const Rightbar = () => {
   return (
-    <aside className="w-64 bg-white rounded-md shadow p-4 hidden lg:block mr-4">
+    <aside className="w-96 bg-gray-50 rounded-md shadow p-4 hidden lg:block">
       <h2 className="text-lg font-medium mb-4">Popular Tags</h2>
       <ul className="space-y-2">
         {tags.map((tag) => (
-          <li key={tag.name}> {/* Đảm bảo có key prop */}
+          <li key={tag.name}>
             <Link
               href={tag.url}
-              className="text-gray-700 hover:text-blue-500 block"
+              className="text-gray-800 hover:text-blue-500 block"
             >
               #{tag.name}
             </Link>

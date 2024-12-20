@@ -1,5 +1,7 @@
 // src/components/header/AuthButton.tsx
-import Link from 'next/link';
+'use client';
+
+import Link from 'next/link'
 
 interface AuthButtonsProps {
   className?: string;
@@ -8,12 +10,15 @@ interface AuthButtonsProps {
 const AuthButtons: React.FC<AuthButtonsProps> = ({ className }) => {
   return (
     <div className={`flex items-center space-x-4 whitespace-nowrap ${className ?? ''}`}>
-      <Link key="login" href="/enter" className="text-gray-700 hover:text-gray-900 hidden md:block text-sm whitespace-nowrap">
+      <Link 
+        href="/auth/login" 
+        className="text-gray-700 hover:text-gray-900 hover:bg-gray-100 hidden md:inline-block px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+      >
         Log in
       </Link>
-      <Link key="signup"
-        href="/enter?state=new-user"
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-3 rounded text-sm whitespace-nowrap"
+      <Link 
+        href="/auth/register"
+        className="border border-black text-black bg-white hover:bg-gray-300 font-medium py-2 px-4 rounded-md text-sm transition-colors duration-200" 
       >
         Create account
       </Link>
