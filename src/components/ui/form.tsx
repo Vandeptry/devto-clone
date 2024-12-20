@@ -85,13 +85,13 @@ const FormItem = ({ children, ...props }: { children: React.ReactNode } & React.
 });
 
 const Button = ({ children, ...props }: { children: React.ReactNode } & React.ButtonHTMLAttributes<HTMLButtonElement>) => (
-    <button
-      className="w-full rounded-md bg-indigo-600 px-3 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mt-5"
-      {...props}
-    >
-      {children}
-    </button>
-  );
-
+  <button
+    className="w-full rounded-md bg-indigo-600 px-3 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mt-5"
+    {...props}
+  >
+    {children}
+  </button>
+);
+Button.displayName = 'Button';
 
 export { useFormField, Form, FormItem, FormLabel, FormControl, FormField,Button };

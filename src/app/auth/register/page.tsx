@@ -61,18 +61,18 @@ export default function Login() {
         </div>
         {/* navigate */}
         <div className="mt-4 flex items-center justify-center space-x-4">
-          <a
+          <Link
             href="/"
             className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
           >
             Back to Home
-          </a>
-          <a
+          </Link>
+          <Link
             href="/auth/login"
             className="text-sm font-medium text-gray-700 hover:text-gray-900"
           >
             Login
-          </a>
+          </Link>
         </div>
       </div>
     </div>

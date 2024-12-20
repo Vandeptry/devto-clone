@@ -2,7 +2,6 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { AccountButton,providers } from "~/components/ui/Provider";
 import {
@@ -16,7 +15,6 @@ import {
 import Link from "next/link";
 
 export default function Login() {
-  const router = useRouter();
   const methods = useForm();
 
   return (
@@ -94,18 +92,18 @@ export default function Login() {
         </div>
         {/* navigate */}
         <div className="mt-4 flex items-center justify-center space-x-4">
-          <a
+          <Link
             href="/"
             className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
           >
             Back to Home
-          </a>
-          <a
+          </Link>
+          <Link
             href="/auth/register"
             className="text-sm font-medium text-gray-700 hover:text-gray-900"
           >
-            Create Account
-          </a>
+            Sign up
+          </Link>
         </div>
       </div>
     </div>
