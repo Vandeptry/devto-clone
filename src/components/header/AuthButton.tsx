@@ -23,10 +23,10 @@ const AuthButtons: React.FC<AuthButtonsProps> = ({ className }) => {
   ];
 
   return (
-    <div className={`flex items-center space-x-4 whitespace-nowrap ${className ?? ''}`}>
+    <div className={`flex items-center space-x-1 lg:space-x-4 whitespace-nowrap ${className ?? ''}`}>
       {session ? (
         <>
-          <Link href="/create-post" className="border border-black text-black bg-white hover:bg-gray-300 font-medium py-2 px-4 rounded-md text-sm transition-colors duration-200">
+          <Link href="/create-post" className="border border-black text-black bg-white hover:bg-gray-300 font-medium py-2 px-4 rounded-md text-sm transition-colors duration-200 hidden lg:block">
             Create Post
           </Link>
           <button className="bg-gray-200 hover:bg-gray-300 p-2 rounded-md">
@@ -38,9 +38,9 @@ const AuthButtons: React.FC<AuthButtonsProps> = ({ className }) => {
               <Image
                 src={session.user.image || ''}
                 alt="Avatar"
-                width={40}
-                height={40}
-                className="rounded-full"
+                width={30}
+                height={30}
+                className="rounded-full lg:w-16 lg:h-16 w-10 h-10 border-2 border-slate-600"
               />
             }
             items={menuItems}
