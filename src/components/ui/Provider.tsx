@@ -6,11 +6,11 @@ import { useState } from "react";
 import { FaDiscord, FaGoogle, FaGithub } from "react-icons/fa";
 import { signIn } from "next-auth/react";
 
-type Provider = {
+interface Provider {
   icon: React.ComponentType;
   color: string;
   id: string;
-};
+}
 
 export const providers: { provider: Provider; text: string }[] = [
   {
@@ -27,16 +27,11 @@ export const providers: { provider: Provider; text: string }[] = [
   },
 ];
 
-type AccountButtonProps = {
+interface AccountButtonProps {
   provider: Provider;
   children: React.ReactNode;
   userId?: string;
   onClick?: () => void;
-};
-
-interface ApiResponse {
-  providerAccountId: string;
-  message?: string;
 }
 
 const AccountButton: React.FC<AccountButtonProps> = ({
@@ -58,18 +53,20 @@ const AccountButton: React.FC<AccountButtonProps> = ({
           body: JSON.stringify({ userId }),
         });
 
-        const data :ApiResponse = await response.json();
-
-        if (response.ok) {
-          await signIn(provider.id, {
-            link: {
-              providerAccountId: data.providerAccountId,
-            },
-            callbackUrl: "/",
-          });
-        } else {
-          console.error(data.message);
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error("Lỗi API:", errorData.message || "Không có thông báo lỗi từ server");
+          throw new Error("API request failed");
         }
+
+        const data = await response.json() as any;
+
+        await signIn(provider.id, {
+          link: {
+            providerAccountId: data.providerAccountId,
+          },
+          callbackUrl: "/",
+        });
       } else {
         if (onClick) {
           onClick();
@@ -77,8 +74,9 @@ const AccountButton: React.FC<AccountButtonProps> = ({
           await signIn(provider.id, { callbackUrl: "/" });
         }
       }
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      console.error("Lỗi chung:", error.message || error);
+      alert('Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại sau.');
     } finally {
       setIsLoading(false);
     }
