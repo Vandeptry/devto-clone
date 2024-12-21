@@ -34,6 +34,11 @@ interface AccountButtonProps {
   onClick?: () => void;
 }
 
+interface ApiResponse {
+  providerAccountId: string;
+  message?: string;
+}
+
 const AccountButton: React.FC<AccountButtonProps> = ({
   provider,
   children,
@@ -59,7 +64,7 @@ const AccountButton: React.FC<AccountButtonProps> = ({
           throw new Error("API request failed");
         }
 
-        const data = await response.json() as any;
+        const data: ApiResponse = await response.json();
 
         await signIn(provider.id, {
           link: {
