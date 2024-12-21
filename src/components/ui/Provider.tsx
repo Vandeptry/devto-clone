@@ -34,6 +34,11 @@ type AccountButtonProps = {
   onClick?: () => void;
 };
 
+interface ApiResponse {
+  providerAccountId: string;
+  message?: string;
+}
+
 const AccountButton: React.FC<AccountButtonProps> = ({
   provider,
   children,
@@ -53,7 +58,7 @@ const AccountButton: React.FC<AccountButtonProps> = ({
           body: JSON.stringify({ userId }),
         });
 
-        const data = await response.json();
+        const data :ApiResponse = await response.json();
 
         if (response.ok) {
           await signIn(provider.id, {

@@ -1,7 +1,7 @@
 //src/components/ui/DropdownMenu.tsx
 'use client';
 
-import { useState, Fragment } from 'react';
+import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { signOut } from 'next-auth/react';
 
