@@ -99,7 +99,7 @@ const FormItem = ({
     children: React.ReactNode;
   } & React.ButtonHTMLAttributes<HTMLButtonElement>) => (
     <button
-      className="w-full rounded-md bg-indigo-600 px-3 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mt-5"
+      className="w-full rounded-md bg-indigo-600 px-3 py-3 text-sm lg:text-2xl font-normal text-white hover:text-black shadow-sm hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mt-5 transition-all duration-200 ease-in-out"
       {...props}
     >
       {children}

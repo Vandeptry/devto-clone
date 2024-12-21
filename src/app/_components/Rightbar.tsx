@@ -65,26 +65,25 @@ const newItems = [
 
 const Rightbar = () => {
   return (
-    <aside className="w-96">
+    <aside className="w-30 ">
       <div className="flex flex-col space-y-6">
         {/* Popular Tags */}
-        <div className="bg-gray-50 rounded-md p-4">
+        <div className="bg-gray-200 rounded-md p-4 shadow-lg shadow-gray-300 ">
           <h2 className="text-lg font-medium mb-4">Popular Tags</h2>
           <div className="flex flex-col gap-1.5">
             {tags.map((tag) => (
               <Link
                 key={tag.name}
-                href={tag.url}
-                className="text-gray-800 hover:text-blue-500"
+                href={tag.url}       
               >
-                #{tag.name}
+               <span  className="text-gray-800 hover:text-blue-500 transition-all duration-100 ease-linear"> #{tag.name}</span>
               </Link>
             ))}
           </div>
         </div>
 
         {/* #discuss */}
-        <div className="bg-gray-50 rounded-md p-4">
+        <div className="bg-gray-200 rounded-md p-4 shadow-lg shadow-gray-300">
           <h2 className="text-lg font-medium mb-4">#discuss</h2>
           <p className="text-sm text-gray-600">
             Discussion threads targeting the whole community
@@ -94,14 +93,16 @@ const Rightbar = () => {
               <Link
                 key={index}
                 href="#"
-                className="text-gray-800 hover:text-blue-500"
+               
               >
-                {item.title}
-                {item.comments && (
-                  <span className="text-gray-500 text-xs ml-2">
-                    {item.comments} comments
-                  </span>
-                )}
+                <div  className="text-gray-800 hover:text-red-700 transition-all duration-200 ease-linear">
+                  {item.title}
+                  {item.comments && (
+                    <span className="text-gray-500 text-xs ml-2">
+                      {item.comments} comments
+                    </span>
+                  )}
+                </div>
                 {item.new && (
                   <span className="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded ml-2">
                     New

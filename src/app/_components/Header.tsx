@@ -46,7 +46,7 @@ const Header: React.FC<HeaderProps> = ({ setIsLeftbarOpen }) => {
     <header className="bg-white shadow-md py-2 sticky top-0 z-50 w-full border-b border-gray-200">
       <div className="container mx-auto flex justify-between items-center px-4 relative">
         <div className="flex items-center">
-          <button onClick={toggleLeftbar} className="md:hidden mr-4">
+          <button onClick={toggleLeftbar} className="lg:hidden mr-4">
             <Menu className="w-6 h-6" />
           </button>
           <Logo />

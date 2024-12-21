@@ -130,20 +130,22 @@ const socialLinks = [
 const Leftbar: React.FC<LeftbarProps> = ({ isOpen }) => {
   return (
     <aside
-      className={`fixed left-0 top-12 h-screen w-64 transform rounded-md bg-gray-50 p-4 transition-transform duration-300 md:relative md:top-0 md:block md:h-full md:translate-x-0 ${
+      className={`fixed shadow-lg shadow-gray-200 left-0 top-16  w-64 transform rounded-md bg-gray-200 p-4 transition-transform duration-300 lg:relative lg:top-0 lg:block lg:h-full lg:translate-x-0 ${
         isOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
-      <div className="h-[calc(100vh-4rem)] md:h-auto overflow-y-auto md:overflow-y-hidden">
+      <div className="h-[calc(100vh-6rem)] lg:h-auto overflow-y-auto lg:overflow-y-hidden">
         <nav className="space-y-3">
           {menuItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="flex items-center rounded px-3 py-2 font-medium text-gray-800 hover:bg-gray-200"
+              className="flex items-center rounded font-medium text-gray-800 hover:bg-gray-200"
             >
+              <div className="flex hover:bg-slate-300 w-full p-2 rounded transition-all duration-200 ease-linear">
               <item.icon className={`mr-2 h-5 w-5 ${item.color}`} />
               <span>{item.label}</span>
+              </div>
             </Link>
           ))}
         </nav>
@@ -164,16 +166,15 @@ const Leftbar: React.FC<LeftbarProps> = ({ isOpen }) => {
         </div>
         <div className="mt-6 border-t border-gray-300 pt-4">
           <h3 className="mb-2 px-3 font-medium text-gray-600">Follow us</h3>
-          <div className="flex justify-center space-x-4 px-3">
+          <div className="flex flex-wrap gap-4 justify-center">
             {socialLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-600 hover:text-gray-800"
+                rel="noopener noreferrer" 
               >
-                <link.icon className="h-6 w-6" />
+                <link.icon className="h-6 lg:h-8 w-6 lg:w-10 text-gray-500 hover:text-blue-600" />
               </Link>
             ))}
           </div>
