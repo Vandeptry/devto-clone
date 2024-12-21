@@ -1,6 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
-
+// prisma/schema.prisma
 generator client {
     provider = "prisma-client-js"
 }
@@ -60,6 +60,7 @@ model User {
     email         String?   @unique
     emailVerified DateTime?
     image         String?
+    hashedPassword String?
     accounts      Account[]
     sessions      Session[]
     posts         Post[]

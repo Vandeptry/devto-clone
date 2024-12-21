@@ -31,55 +31,70 @@ interface LeftbarProps {
 }
 
 const menuItems = [
-  { href: "/", icon: Home, label: "Home", color: "blue-500" },
+  { href: "/", icon: Home, label: "Home", color: "text-blue-500" },
   {
     href: "/dev-plus-plus",
     icon: PlusSquare,
     label: "DEV++",
-    color: "gray-600",
+    color: "text-green-500", 
   },
-  { href: "/podcasts", icon: Mic, label: "Podcasts", color: "gray-600" },
-  { href: "/videos", icon: Video, label: "Videos", color: "gray-600" },
-  { href: "/tags", icon: Tag, label: "Tags", color: "yellow-500" },
+  {
+    href: "/podcasts",
+    icon: Mic,
+    label: "Podcasts",
+    color: "text-orange-500", 
+  },
+  {
+    href: "/videos",
+    icon: Video,
+    label: "Videos",
+    color: "text-red-500", 
+  },
+  { href: "/tags", icon: Tag, label: "Tags", color: "text-yellow-500" },
   {
     href: "/dev-help",
     icon: HelpCircle,
     label: "DEV Help",
-    color: "yellow-300",
+    color: "text-cyan-500", 
   },
   {
     href: "/forem-shop",
     icon: ShoppingCart,
     label: "Forem Shop",
-    color: "purple-500",
+    color: "text-purple-500",
   },
   {
     href: "/advertise-on-dev",
     icon: Heart,
     label: "Advertise on DEV",
-    color: "red-500",
+    color: "text-pink-500", 
   },
   {
     href: "/dev-challenges",
     icon: Trophy,
     label: "DEV Challenges",
-    color: "yellow-500",
+    color: "text-amber-500", 
   },
   {
     href: "/dev-showcase",
     icon: Star,
     label: "DEV Showcase",
-    color: "yellow-300",
+    color: "text-yellow-300",
   },
-  { href: "/about", icon: Info, label: "About", color: "gray-600" },
-  { href: "/contact", icon: PhoneCall, label: "Contact", color: "gray-600" },
+  { href: "/about", icon: Info, label: "About", color: "text-gray-600" },
+  {
+    href: "/contact",
+    icon: PhoneCall,
+    label: "Contact",
+    color: "text-blue-500", 
+  },
   {
     href: "/free-postgres-database",
     icon: Database,
     label: "Free Postgres",
-    color: "gray-600",
+    color: "text-gray-800", 
   },
-  { href: "/guides", icon: BookOpen, label: "Guides", color: "gray-600" },
+  { href: "/guides", icon: BookOpen, label: "Guides", color: "text-green-500" }, 
 ];
 
 const otherMenuItems = [
@@ -127,7 +142,7 @@ const Leftbar: React.FC<LeftbarProps> = ({ isOpen }) => {
               href={item.href}
               className="flex items-center rounded px-3 py-2 font-medium text-gray-800 hover:bg-gray-200"
             >
-              <item.icon className={`mr-2 h-5 w-5 text-${item.color}`} />
+              <item.icon className={`mr-2 h-5 w-5 ${item.color}`} />
               <span>{item.label}</span>
             </Link>
           ))}

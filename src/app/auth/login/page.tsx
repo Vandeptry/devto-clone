@@ -3,7 +3,7 @@
 
 import Image from "next/image";
 import { useForm } from "react-hook-form";
-import { AccountButton,providers } from "~/components/ui/Provider";
+import { AccountButton, providers } from "~/components/ui/Provider";
 import {
   Form,
   FormItem,
@@ -13,6 +13,7 @@ import {
   Button,
 } from "~/components/ui/form";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
 
 export default function Login() {
   const methods = useForm();
@@ -35,7 +36,13 @@ export default function Login() {
         {/* Continue */}
         <div className="flex flex-col gap-4">
           {providers.map((provider, index) => (
-            <AccountButton key={index} provider={provider.provider}>
+            <AccountButton
+              key={index}
+              provider={provider.provider}
+              onClick={() =>
+                void signIn(provider.provider.id, { callbackUrl: "/" })
+              }
+            >
               Continue with {provider.text}
             </AccountButton>
           ))}

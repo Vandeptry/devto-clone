@@ -1,16 +1,12 @@
-// src/app/auth/login/Login.tsx
+// src/app/auth/register/page.tsx
 "use client";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
 import Link from "next/link";
-import { AccountButton,providers } from "~/components/ui/Provider";
+import { AccountButton, providers } from "~/components/ui/Provider";
+import { signIn } from "next-auth/react";
 
-export default function Login() {
-  const router = useRouter();
-  const methods = useForm();
-
+export default function Register() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8">
@@ -29,8 +25,12 @@ export default function Login() {
         {/* Sign up */}
         <div className="flex flex-col gap-4">
           {providers.map((provider, index) => (
-            <AccountButton key={index} provider={provider.provider}>
-                Sign up with {provider.text}
+            <AccountButton
+              key={index}
+              provider={provider.provider}
+              onClick={() => void signIn(provider.provider.id, { callbackUrl: "/" })}
+            >
+              Sign up with {provider.text}
             </AccountButton>
           ))}
         </div>
