@@ -40,14 +40,14 @@ export const authConfig: NextAuthConfig = {
       clientId: process.env.DISCORD_CLIENT_ID,
       clientSecret: process.env.DISCORD_CLIENT_SECRET,
     }),
-    // GithubProvider({
-    //   clientId: process.env.GITHUB_ID as string,
-    //   clientSecret: process.env.GITHUB_SECRET as string,
-    // }),
-    // GoogleProvider({
-    //   clientId: process.env.GOOGLE_ID as string,
-    //   clientSecret: process.env.GOOGLE_SECRET as string,
-    // }),
+    GithubProvider({
+      clientId: process.env.AUTH_GITHUB_ID,
+      clientSecret: process.env.AUTH_GITHUB_SECRET,
+    }),
+    GoogleProvider({
+      clientId: process.env.AUTH_GOOGLE_ID,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET,
+    }),
   ],
   adapter: PrismaAdapter(db),
   callbacks: {

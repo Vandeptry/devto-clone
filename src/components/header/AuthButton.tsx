@@ -40,7 +40,7 @@ const AuthButtons: React.FC<AuthButtonsProps> = ({ className }) => {
                 alt="Avatar"
                 width={30}
                 height={30}
-                className="rounded-full lg:w-16 lg:h-16 w-10 h-10 border-2 border-slate-600"
+                className="rounded-full lg:w-10 lg:h-10 w-10 h-10 border-2 border-slate-600"
               />
             }
             items={menuItems}
@@ -51,13 +51,13 @@ const AuthButtons: React.FC<AuthButtonsProps> = ({ className }) => {
         <>
           <Link
             href="/auth/login"
-            className="text-gray-700 hover:text-gray-900 hover:bg-gray-100  inline-block px-4 py-2 rounded-md text-sm md:text-xl font-medium transition-colors duration-200"
+            className="text-gray-700 hover:text-gray-900 hover:bg-gray-100  inline-block px-4 py-2 rounded-md text-sm md:text-base font-medium transition-colors duration-200"
           >
             Log in
           </Link>
           <Link
             href="/auth/register"
-            className="border border-black text-black bg-white hover:bg-gray-300 font-medium py-2 px-4 rounded-md text-sm md:text-xl transition-colors duration-200"
+            className="border border-black text-black bg-white hover:bg-gray-300 font-medium py-2 px-4 rounded-md text-sm md:text-base transition-colors duration-200"
           >
             Create account
           </Link>
