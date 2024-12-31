@@ -59,10 +59,10 @@ export default function Credentials() {
     }
   
     try {
-      const profileImageFile = values.profileImage![0]; 
-      if (profileImageFile) {
+      if (values.profileImage && values.profileImage.length > 0) { // Kiểm tra điều kiện
+        const profileImageFile = values.profileImage[0];
         const reader = new FileReader();
-        reader.readAsDataURL(profileImageFile);
+        reader.readAsDataURL(profileImageFile ? profileImageFile : new Blob());
         reader.onload = async () => {
           const base64String = reader.result as string;
   
