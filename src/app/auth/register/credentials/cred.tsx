@@ -1,4 +1,4 @@
-// src/app/auth/register/credentials/page.tsx
+// src/app/auth/register/credentials/cred.tsx
 "use client";
 
 import { useForm } from "react-hook-form";
@@ -57,28 +57,27 @@ export default function Credentials() {
       alert("Passwords do not match!");
       return;
     }
-  
+
     try {
-      if (values.profileImage && values.profileImage.length > 0) { // Kiểm tra điều kiện
-        const profileImageFile = values.profileImage[0];
+      const profileImageFile = values.profileImage?.[0];
+      let base64String = null;
+
+      if (profileImageFile) {
         const reader = new FileReader();
-        reader.readAsDataURL(profileImageFile!);
-        reader.onload = async () => {
-          const base64String = reader.result as string;
-          await registerMutation.mutateAsync({ 
-            email: values.email, 
-            password: values.password, 
-            name: values.name, 
-            username: values.username, 
-            profileImage: base64String,
-          });
-  
-          router.push("/auth/login"); 
-        };
-      } else { 
-        alert("Please upload a profile image."); 
-        return; 
-      } 
+        reader.readAsDataURL(profileImageFile);
+        await new Promise(resolve => reader.onload = () => resolve(reader.result)); // Chờ đọc file xong
+        base64String = reader.result as string;
+      }
+
+      await registerMutation.mutateAsync({ // Gửi base64String
+        email: values.email, 
+        password: values.password, 
+        name: values.name, 
+        username: values.username, 
+        profileImage: base64String, 
+      });
+
+      router.push("/auth/login"); 
     } catch (error) {
       console.error(error);
     }

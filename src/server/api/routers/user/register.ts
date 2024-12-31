@@ -11,7 +11,7 @@ const registerSchema = z.object({
   password: z.string().min(6),
   email: z.string().email().optional(),
   name: z.string().min(2).optional(),
-  profileImage: z.string().optional(),
+  profileImage: z.string().nullable().optional(),
 });
 
 export const register = publicProcedure
@@ -57,10 +57,7 @@ export const register = publicProcedure
 
     if (input.profileImage) {
       try {
-        const base64Data = input.profileImage.replace(
-          /^data:image\/\w+;base64,/,
-          "",
-        );
+        const base64Data = input.profileImage.replace(/^data:image\/\w+;base64,/, '');
         const buffer = Buffer.from(base64Data, "base64");
 
         const { data, error } = await serverSupabase.storage
