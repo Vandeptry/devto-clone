@@ -59,7 +59,7 @@ export default function Credentials() {
     }
   
     try {
-      const profileImageFile = values.profileImage?.[0]; 
+      const profileImageFile = values.profileImage![0]; 
       if (profileImageFile) {
         const reader = new FileReader();
         reader.readAsDataURL(profileImageFile);
