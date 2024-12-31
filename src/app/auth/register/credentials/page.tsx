@@ -62,10 +62,9 @@ export default function Credentials() {
       if (values.profileImage && values.profileImage.length > 0) { // Kiểm tra điều kiện
         const profileImageFile = values.profileImage[0];
         const reader = new FileReader();
-        reader.readAsDataURL(profileImageFile ? profileImageFile : new Blob());
+        reader.readAsDataURL(profileImageFile!);
         reader.onload = async () => {
           const base64String = reader.result as string;
-  
           await registerMutation.mutateAsync({ 
             email: values.email, 
             password: values.password, 
