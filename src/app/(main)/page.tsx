@@ -23,14 +23,14 @@ export default function page() {
   return (
     <div className="min-h-screen">
       <main>
-        {(session || user) ? (
+        {(session ?? user) ? (
           <div>
             <p>
-              Xin chào, {session?.user?.name || user?.name || "Người dùng"}!
+              Xin chào, {session?.user?.name ?? user?.name ?? "User"}!
             </p>
-            {(session?.user?.image || user?.uploadAva) && (
+            {(session?.user?.image ?? user?.uploadAva) && (
               <img
-                src={session?.user?.image || user?.uploadAva || ""}
+                src={session?.user?.image ?? user?.uploadAva ?? ""}
                 alt="Avatar"
                 className="rounded-full w-20 h-20"
               />
