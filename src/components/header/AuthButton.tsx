@@ -31,7 +31,7 @@ const AuthButtons: React.FC<AuthButtonsProps> = ({ className }) => {
     { label: "Sign Out" },
   ];
 
-  const isLoggedIn = session?.user || user; 
+  const isLoggedIn = session?.user ?? user; 
 
   return (
     <div
@@ -51,11 +51,11 @@ const AuthButtons: React.FC<AuthButtonsProps> = ({ className }) => {
             <Bell size={24} />
           </button>
           {/* Kiểm tra ảnh provider hay ảnh upload */}
-          {(session?.user?.image || user?.uploadAva) && (
+          {(session?.user?.image ?? user?.uploadAva) && (
             <DropdownMenu
             trigger={
               <Image
-                src={session?.user.image || user.uploadAva || ""}
+                src={session?.user.image ?? user.uploadAva ?? ""}
                 alt={
                   session?.user.name
                     ? session.user.name.charAt(0).toUpperCase()
