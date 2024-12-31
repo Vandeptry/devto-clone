@@ -18,7 +18,7 @@ import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 
 const formSchema = z.object({
-  profileImage: z.any(),
+  profileImage: z.instanceof(FileList).nullable(),
   name: z.string().min(2, {
     message: "Name must be at least 2 characters.",
   }),
