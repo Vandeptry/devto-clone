@@ -40,7 +40,8 @@ const config = {
           "attributes": false
         }
       }
-    ]
+    ],
+    '@typescript-eslint/non-nullable-type-assertion-style': 'off',
   }
 }
 module.exports = config;
