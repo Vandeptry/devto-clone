@@ -16,7 +16,7 @@ export default function Page() {
     useEffect(() => {
         const userString = localStorage.getItem('user');
         if (userString) {
-            setUser(JSON.parse(userString));
+            setUser(JSON.parse(userString) as User);
         }
     }, []);
 
