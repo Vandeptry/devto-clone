@@ -18,7 +18,7 @@ import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 
 const formSchema = z.object({
-  profileImage: z.any(),
+  profileImage: z.instanceof(File).nullable(),
   name: z.string().min(2, {
     message: "Name must be at least 2 characters.",
   }),
@@ -59,7 +59,7 @@ export default function Credentials() {
     }
 
     try {
-      const profileImageFile = values.profileImage?.[0];
+      const profileImageFile = values.profileImage;
       if (profileImageFile) {
         const reader = new FileReader();
         reader.readAsDataURL(profileImageFile);
