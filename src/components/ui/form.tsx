@@ -107,6 +107,20 @@ const FormItem = ({
   );
   Button.displayName = "Button";
   
+  const FormMessage = ({ ...props }: { children: React.ReactNode }) => {
+    const { error } = useFormField();
+    return (
+      <p
+        className={cn(
+          "text-sm text-red-500",
+          error && "font-medium"
+        )}
+        {...props}
+      />
+    );
+  };
+  FormMessage.displayName = "FormMessage";
+
   export {
     useFormField,
     Form,
@@ -115,4 +129,5 @@ const FormItem = ({
     FormControl,
     FormField,
     Button,
+    FormMessage
   };

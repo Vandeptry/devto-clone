@@ -16,6 +16,11 @@ interface DropdownMenuItem {
     items: DropdownMenuItem[];
   }
 
+  const handleSignOut = () => {
+    signOut();
+    localStorage.removeItem("user");
+  };
+
 const DropdownMenu: React.FC<DropdownMenuProps> = ({ trigger, items }) => {
   return (
     <Menu as="div" className="relative inline-block text-left">
@@ -41,7 +46,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ trigger, items }) => {
                 {({ active }) => (
                   item.label === 'Sign Out' ? (
                     <button
-                      onClick={() => signOut()}
+                      onClick={() => handleSignOut()}
                       className={`${active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'} block w-full px-4 py-2 text-left text-sm`}
                     >
                       {item.label}
