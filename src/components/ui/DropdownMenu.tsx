@@ -16,8 +16,8 @@ interface DropdownMenuItem {
     items: DropdownMenuItem[];
   }
 
-  const handleSignOut = () => {
-    signOut();
+  const handleSignOut = async () => {
+    await signOut();
     localStorage.removeItem("user");
   };
 

@@ -13,7 +13,7 @@ import {
   Button,
 } from "~/components/ui/form";
 import Link from "next/link";
-import { getSession, signIn, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useRouter } from "next/navigation";
@@ -21,7 +21,6 @@ import { z } from "zod";
 import { api } from "~/trpc/react";
 
 export default function Login() {
-  const { data: session, update } = useSession();
   const methods = useForm<z.infer<typeof credentialsSchema>>({
     defaultValues: {
       email: "",

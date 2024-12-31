@@ -19,7 +19,7 @@ export const credentialsRouter = publicProcedure
       where: { email },
     });
 
-    if (!user || !user.hashedPassword) {
+    if (!user?.hashedPassword) {
       throw new TRPCError({
         code: "NOT_FOUND",
         message: "User not found",

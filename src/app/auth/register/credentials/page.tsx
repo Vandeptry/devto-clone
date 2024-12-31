@@ -109,7 +109,7 @@ export default function Credentials() {
                 <FormControl
                   type="file"
                   accept="image/*"
-                  onChange={(e) => field.onChange(e.target.files)}
+                  onChange={(e) => field.onChange(e.target.files as FileList)}
                 />
               )}
             />

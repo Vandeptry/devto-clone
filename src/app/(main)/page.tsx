@@ -28,13 +28,6 @@ export default function Page() {
             <p>
               Xin chào, {session?.user?.name ?? user?.name ?? "User"}!
             </p>
-            {(session?.user?.image ?? user?.uploadAva) && (
-              <img
-                src={session?.user?.image ?? user?.uploadAva ?? ""}
-                alt="Avatar"
-                className="rounded-full w-20 h-20"
-              />
-            )}
           </div>
         ) : (
           <>

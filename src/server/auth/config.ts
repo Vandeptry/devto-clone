@@ -70,7 +70,7 @@ export const authConfig: NextAuthConfig = {
           where: { email },
         });
 
-        if (!user || !user.hashedPassword) {
+        if (!user?.hashedPassword) {
           console.log("User not found or no password set.");
           return null;
         }

@@ -11,10 +11,15 @@ import { useEffect, useState } from "react";
 interface AuthButtonsProps {
   className?: string;
 }
+interface User {
+  uploadAva: string;
+  name?: string; 
+  username?: string;
+}
 
 const AuthButtons: React.FC<AuthButtonsProps> = ({ className }) => {
   const { data: session } = useSession();
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -55,11 +60,11 @@ const AuthButtons: React.FC<AuthButtonsProps> = ({ className }) => {
             <DropdownMenu
             trigger={
               <Image
-                src={session?.user.image ?? user.uploadAva ?? ""}
+                src={session?.user.image ?? user?.uploadAva ?? ""}
                 alt={
                   session?.user.name
                     ? session.user.name.charAt(0).toUpperCase()
-                    : user.username
+                    : user?.username
                     ? user.username.charAt(0).toUpperCase()
                     : "Avatar"
                 }
