@@ -57,34 +57,33 @@ export default function Credentials() {
       alert("Passwords do not match!");
       return;
     }
-  
+
     try {
-      const profileImageFile = values.profileImage?.[0]; 
+      const profileImageFile = values.profileImage?.[0];
       if (profileImageFile) {
         const reader = new FileReader();
         reader.readAsDataURL(profileImageFile);
         reader.onload = async () => {
           const base64String = reader.result as string;
-  
-          await registerMutation.mutateAsync({ 
-            email: values.email, 
-            password: values.password, 
-            name: values.name, 
-            username: values.username, 
+
+          await registerMutation.mutateAsync({
+            email: values.email,
+            password: values.password,
+            name: values.name,
+            username: values.username,
             profileImage: base64String,
           });
-  
-          router.push("/auth/login"); 
+
+          router.push("/auth/login");
         };
-      } else { 
-        alert("Please upload a profile image."); 
-        return; 
-      } 
+      } else {
+        alert("Please upload a profile image.");
+        return;
+      }
     } catch (error) {
       console.error(error);
     }
   };
-  
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-tr from-red-100 to-cyan-100 px-4 py-12 sm:px-6 lg:px-8">
@@ -109,7 +108,16 @@ export default function Credentials() {
                 <FormControl
                   type="file"
                   accept="image/*"
-                  onChange={(e) => field.onChange(e.target.files as FileList)}
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      const reader = new FileReader();
+                      reader.readAsDataURL(file);
+                      reader.onload = () => {
+                        field.onChange(reader.result as string);
+                      };
+                    }
+                  }}
                 />
               )}
             />
