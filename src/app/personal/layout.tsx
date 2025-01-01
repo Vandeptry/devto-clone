@@ -5,7 +5,7 @@ import { useState } from "react";
 import Header from "../_components/Header";
 import Leftbar from "../_components/Leftbar";
 
-const personal: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const Personal: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isLeftbarOpen, setIsLeftbarOpen] = useState(false);
   return (
     <div>
@@ -17,4 +17,4 @@ const personal: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     </div>
   );
 };
-export default personal;
+export default Personal;
