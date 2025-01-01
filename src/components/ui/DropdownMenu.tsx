@@ -1,32 +1,35 @@
 //src/components/ui/DropdownMenu.tsx
-'use client';
+"use client";
 
-import { Fragment } from 'react';
-import { Menu, Transition } from '@headlessui/react';
-import { signOut } from 'next-auth/react';
+import { Fragment } from "react";
+import { Menu, Transition } from "@headlessui/react";
+import { signOut } from "next-auth/react";
+import { useRouter } from 'next/navigation';
 
 interface DropdownMenuItem {
-    label: string;
-    href?: string;
-    onClick?: () => void;
-  }
-  
-  interface DropdownMenuProps {
-    trigger: React.ReactNode;
-    items: DropdownMenuItem[];
-  }
+  label: string;
+  sub: string | null;
+  href?: string;
+  onClick?: () => void;
+}
 
+interface DropdownMenuProps {
+  trigger: React.ReactNode;
+  items: DropdownMenuItem[];
+}
+
+const DropdownMenu: React.FC<DropdownMenuProps> = ({ trigger, items }) => {
+  const router = useRouter();
   const handleSignOut = async () => {
     await signOut();
     localStorage.removeItem("user");
+    router.back();
   };
-
-const DropdownMenu: React.FC<DropdownMenuProps> = ({ trigger, items }) => {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
         <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-50">
-          {trigger} 
+          {trigger}
         </Menu.Button>
       </div>
 
@@ -41,25 +44,36 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ trigger, items }) => {
       >
         <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
-            {items.map((item) => (
+            {items.map((item, index) => (
               <Menu.Item key={item.label}>
                 {({ active }) => (
-                  item.label === 'Sign Out' ? (
-                    <button
-                      onClick={() => handleSignOut()}
-                      className={`${active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'} block w-full px-4 py-2 text-left text-sm`}
-                    >
-                      {item.label}
-                    </button>
-                  ) : (
-                    <a
-                      href={item.href}
-                      onClick={item.onClick}
-                      className={`${active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'} block px-4 py-2 text-sm`}
-                    >
-                      {item.label}
-                    </a>
-                  )
+                  <div
+                    className={`${index === 0 ? "border-b text-xl font-bold" : ""} ${index === items.length - 1 ? "border-t" : ""} ${item.label === "Sign Out" ? "text-red-500" : ""} ${active ? "bg-gray-100" : ""} block w-full px-4 py-2 text-left`}
+                  >
+                    {item.href ? (
+                      <a
+                        href={item.href}
+                        onClick={item.onClick}
+                        className="hover:text-blue-600"
+                      >
+                        {item.label}
+                      </a>
+                    ) : (
+                      <div
+                        onClick={handleSignOut}
+                        className="text-red-500 hover:text-red-700"
+                      >
+                        {item.label}
+                      </div>
+                    )}
+
+                    {/* sub index 0 */}
+                    {index === 0 && item.sub && (
+                      <div className="m-1 text-xs text-gray-500">
+                        {item.sub}
+                      </div>
+                    )}
+                  </div>
                 )}
               </Menu.Item>
             ))}

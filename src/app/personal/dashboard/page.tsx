@@ -4,7 +4,7 @@ import React from 'react'
 export default function page() {
   return (
     <div>
-      Trang cá nhân
+      Trang cá nhân here
     </div>
   )
 }
