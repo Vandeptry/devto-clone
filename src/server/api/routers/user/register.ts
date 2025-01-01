@@ -47,7 +47,8 @@ export const register = publicProcedure
           data: {
             username: input.username,
             hashedPassword,
-            ...(input.email && { email: input.email })
+            ...(input.email && { email: input.email }),
+            ...(input.name && { email: input.name })
           },
         });
 
