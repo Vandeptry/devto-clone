@@ -20,31 +20,28 @@ const registerSchema = z.object({
 export const register = publicProcedure
   .input(registerSchema)
   .mutation(async ({ ctx, input }) => {
-    // Kiểm tra username/email trùng lặp
-    const existingUser = await prisma.user.findFirst({
-      where: {
-        OR: [
-          { username: input.username },
-          ...(input.email ? [{ email: input.email }] : []),
-        ],
-      },
-    });
-
-    if (existingUser) {
-      throw new TRPCError({
-        code: "CONFLICT",
-        message:
-          existingUser.username === input.username
-            ? "Username already taken"
-            : "Email already registered",
-      });
-    }
-
-    const hashedPassword = await hash(input.password, 10);
-
     try {
       // Sử dụng transaction
       const user = await prisma.$transaction(async (tx) => {
+        // Kiểm tra username/email trùng lặp (sử dụng count)
+        const existingUserCount = await tx.user.count({
+          where: {
+            OR: [
+              { username: input.username },
+              ...(input.email ? [{ email: input.email }] : []),
+            ],
+          },
+        });
+
+        if (existingUserCount > 0) {
+          throw new TRPCError({
+            code: "CONFLICT",
+            message: "Username or email already exists", 
+          });
+        }
+
+        const hashedPassword = await hash(input.password, 10);
+
         // Tạo user
         const createdUser = await tx.user.create({
           data: {
@@ -90,7 +87,7 @@ export const register = publicProcedure
           });
         }
 
-        // Tạo hoặc cập nhật account
+        // Tạo hoặc cập nhật account (sử dụng upsert)
         await tx.account.upsert({
           where: {
             provider_providerAccountId: {
@@ -122,15 +119,16 @@ export const register = publicProcedure
           },
         });
 
-        return createdUser;
+        return createdUser; // Trả về user object
       });
 
-      return user;
+      return user; // Trả về user object
     } catch (error) {
       console.error("Error during registration:", error);
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
         message: "Failed to register user",
+        cause: error // Gửi thông tin lỗi chi tiết cho client
       });
     }
   });
