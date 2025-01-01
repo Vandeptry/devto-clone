@@ -4,7 +4,7 @@
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { signOut } from "next-auth/react";
-import { useRouter } from 'next/navigation';
+import { useRouter,redirect } from 'next/navigation';
 
 interface DropdownMenuItem {
   label: string;
@@ -21,9 +21,8 @@ interface DropdownMenuProps {
 const DropdownMenu: React.FC<DropdownMenuProps> = ({ trigger, items }) => {
   const router = useRouter();
   const handleSignOut = async () => {
-    await signOut();
+    await signOut({callbackUrl:'/'});
     localStorage.removeItem("user");
-    router.back();
   };
   return (
     <Menu as="div" className="relative inline-block text-left">
