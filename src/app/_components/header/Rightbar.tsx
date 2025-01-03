@@ -74,7 +74,7 @@ const Rightbar = () => {
             {tags.map((tag) => (
               <Link
                 key={tag.name}
-                href={tag.url}       
+                href="/"     
               >
                <span  className="text-gray-800 hover:text-blue-500 transition-all duration-100 ease-linear"> #{tag.name}</span>
               </Link>
@@ -92,7 +92,7 @@ const Rightbar = () => {
             {newItems.map((item, index) => (
               <Link
                 key={index}
-                href="#"
+                href="/"
                
               >
                 <div  className="text-gray-800 hover:text-red-700 transition-all duration-200 ease-linear">

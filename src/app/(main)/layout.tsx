@@ -4,9 +4,9 @@ import { useState } from "react";
 import dynamic from "next/dynamic";
 import Header from "../_components/header";
 
-const Leftbar = dynamic(() => import('../_components/Leftbar'), { ssr: false });
+const Leftbar = dynamic(() => import('../_components/header/Leftbar'), { ssr: false });
 
-const Rightbar = dynamic(() => import('../_components/Rightbar'), { ssr: false });
+const Rightbar = dynamic(() => import('../_components/header/Rightbar'), { ssr: false });
 
 const Main: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isLeftbarOpen, setIsLeftbarOpen] = useState(false);

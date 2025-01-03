@@ -2,8 +2,8 @@
 "use client";
 import React from "react";
 import { useState } from "react";
-import Header from "../_components/header/Header";
-import Leftbar from "../_components/Leftbar";
+import Header from "../_components/header";
+import Leftbar from "../_components/header/Leftbar";
 
 const Personal: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isLeftbarOpen, setIsLeftbarOpen] = useState(false);

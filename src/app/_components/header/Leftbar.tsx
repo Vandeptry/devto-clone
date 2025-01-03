@@ -99,19 +99,19 @@ const menuItems = [
 
 const otherMenuItems = [
   {
-    href: "/code-of-conduct",
+    href: "policy/CoC",
     icon: ThumbsUp,
     label: "Code of Conduct",
     color: "gray-600",
   },
   {
-    href: "/privacy-policy",
+    href: "policy/PP",
     icon: User,
     label: "Privacy Policy",
     color: "gray-600",
   },
   {
-    href: "/terms-of-use",
+    href: "policy/ToU",
     icon: Eye,
     label: "Terms of Use",
     color: "gray-600",
@@ -170,7 +170,7 @@ const Leftbar: React.FC<LeftbarProps> = ({ isOpen }) => {
             {socialLinks.map((link) => (
               <Link
                 key={link.href}
-                href={link.href}
+                href="/"
                 target="_blank"
                 rel="noopener noreferrer" 
               >
