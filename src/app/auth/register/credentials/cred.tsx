@@ -65,11 +65,11 @@ export default function Credentials() {
       if (profileImageFile) {
         const reader = new FileReader();
         reader.readAsDataURL(profileImageFile);
-        await new Promise(resolve => reader.onload = () => resolve(reader.result)); // Chờ đọc file xong
+        await new Promise(resolve => reader.onload = () => resolve(reader.result));
         base64String = reader.result as string;
       }
 
-      await registerMutation.mutateAsync({ // Gửi base64String
+      await registerMutation.mutateAsync({
         email: values.email, 
         password: values.password, 
         name: values.name, 

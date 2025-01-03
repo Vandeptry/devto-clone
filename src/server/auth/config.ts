@@ -81,12 +81,6 @@ export const authConfig: NextAuthConfig = {
           console.log("Invalid password");
           return null;
         }
-        console.log("Thông tin cred: ",user.id,
-          user.email,
-          user.name,
-          user.uploadAva,)
-
-        //localStorage.setItem('user',user)
 
         return {
           id: user.id,

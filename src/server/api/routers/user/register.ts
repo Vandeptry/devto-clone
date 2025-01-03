@@ -21,9 +21,8 @@ export const register = publicProcedure
   .input(registerSchema)
   .mutation(async ({ ctx, input }) => {
     try {
-      // Sử dụng transaction
+      // Transaction
       const user = await prisma.$transaction(async (tx) => {
-        // Kiểm tra username/email trùng lặp (sử dụng count)
         const existingUserCount = await tx.user.count({
           where: {
             OR: [
@@ -48,11 +47,11 @@ export const register = publicProcedure
             username: input.username,
             hashedPassword,
             ...(input.email && { email: input.email }),
-            ...(input.name && { email: input.name })
+            ...(input.name && { name: input.name })
           },
         });
 
-        // Tải avatar lên Supabase (nếu có)
+        // Tải avatar
         if (input.profileImage) {
           const serverSupabase = createClient(
             process.env.SUPABASE_URL!,
@@ -64,7 +63,7 @@ export const register = publicProcedure
 
           const { data, error } = await serverSupabase.storage
             .from("avatars")
-            .upload(`${createdUser.id}.png`, buffer, {
+            .upload(`${createdUser.id}/avatar.png`, buffer, {
               upsert: true,
               contentType: "image/png",
             });
@@ -75,7 +74,7 @@ export const register = publicProcedure
 
           const { data: publicUrlData } = serverSupabase.storage
             .from("avatars")
-            .getPublicUrl(`${createdUser.id}.png`);
+            .getPublicUrl(`${createdUser.id}/avatar.png`);
 
           if (!publicUrlData) {
             throw new Error("Unable to generate public URL for the avatar.");
