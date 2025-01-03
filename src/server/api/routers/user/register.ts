@@ -119,7 +119,7 @@ export const register = publicProcedure
         });
 
         return createdUser; // Trả về user object
-      });
+      },{timeout: 10000});
 
       return user; // Trả về user object
     } catch (error) {
