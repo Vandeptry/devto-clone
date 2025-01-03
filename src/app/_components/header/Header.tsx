@@ -11,7 +11,7 @@ interface HeaderProps {
   setIsLeftbarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Header: React.FC<HeaderProps> = ({ setIsLeftbarOpen }) => {
+const HeaderContent: React.FC<HeaderProps> = ({ setIsLeftbarOpen }) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const searchBoxRef = useRef<HTMLDivElement>(null);
   const searchIconRef = useRef<HTMLButtonElement>(null);
@@ -72,4 +72,4 @@ const Header: React.FC<HeaderProps> = ({ setIsLeftbarOpen }) => {
   );
 };
 
-export default Header;
+export default HeaderContent;

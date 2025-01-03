@@ -1,9 +1,12 @@
 // src/app/(main)/layout.tsx
 "use client";
-import Header from "~/app/_components/Header";
 import { useState } from "react";
-import Leftbar from "../_components/Leftbar";
-import Rightbar from "../_components/Rightbar";
+import dynamic from "next/dynamic";
+import Header from "../_components/header";
+
+const Leftbar = dynamic(() => import('../_components/Leftbar'), { ssr: false });
+
+const Rightbar = dynamic(() => import('../_components/Rightbar'), { ssr: false });
 
 const Main: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isLeftbarOpen, setIsLeftbarOpen] = useState(false);

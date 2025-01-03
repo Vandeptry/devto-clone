@@ -2,7 +2,7 @@
 "use client";
 import React from "react";
 import { useState } from "react";
-import Header from "../_components/Header";
+import Header from "../_components/header/Header";
 import Leftbar from "../_components/Leftbar";
 
 const Personal: React.FC<{ children: React.ReactNode }> = ({ children }) => {

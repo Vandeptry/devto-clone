@@ -86,7 +86,7 @@ export const register = publicProcedure
           });
         }
 
-        // Tạo hoặc cập nhật account (sử dụng upsert)
+        // Tạo account
         await tx.account.upsert({
           where: {
             provider_providerAccountId: {
@@ -118,16 +118,16 @@ export const register = publicProcedure
           },
         });
 
-        return createdUser; // Trả về user object
+        return createdUser;
       },{timeout: 10000});
 
-      return user; // Trả về user object
+      return user;
     } catch (error) {
       console.error("Error during registration:", error);
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
         message: "Failed to register user",
-        cause: error // Gửi thông tin lỗi chi tiết cho client
+        cause: error
       });
     }
   });
