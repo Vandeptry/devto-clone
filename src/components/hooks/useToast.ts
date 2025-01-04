@@ -32,5 +32,5 @@ export const useToast = () => {
       }),
   };
 
-  return { toaster, dismiss:toast.dismiss };
+  return { toaster, dismiss: () => toast.dismiss() }; 
 };
