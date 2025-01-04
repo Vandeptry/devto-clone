@@ -57,7 +57,8 @@ export const authConfig: NextAuthConfig = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const result = credentialsSchema.safeParse(credentials);
+        try{
+          const result = credentialsSchema.safeParse(credentials);
 
         if (!result.success) {
           console.log("Invalid credentials:", result.error.errors);
@@ -88,7 +89,11 @@ export const authConfig: NextAuthConfig = {
           name: user.name,
           uploadAva: user.uploadAva,
         };
-      },
+        } catch(error) {
+          console.error("Authentication error:", error);
+          return null;
+        }
+      }
     }),
   ],
   adapter: PrismaAdapter(db),

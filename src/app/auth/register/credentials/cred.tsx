@@ -16,6 +16,8 @@ import {
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
+import { Toast } from "~/components/ui/toast";
+import { useToast } from "~/components/hooks/useToast";
 
 const formSchema = z.object({
   profileImage: z.instanceof(FileList).nullable(),
@@ -37,6 +39,7 @@ const formSchema = z.object({
 });
 
 export default function Credentials() {
+  const { toaster, dismiss } = useToast();
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -53,6 +56,7 @@ export default function Credentials() {
   const registerMutation = api.user.register.useMutation();
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    toaster?.loading("Đang đăng ký...");
     if (values.password !== values.passwordConfirmation) {
       alert("Passwords do not match!");
       return;
@@ -60,32 +64,40 @@ export default function Credentials() {
 
     try {
       const profileImageFile = values.profileImage?.[0];
-      let base64String = null;
+      let base64String;
 
       if (profileImageFile) {
         const reader = new FileReader();
         reader.readAsDataURL(profileImageFile);
-        await new Promise(resolve => reader.onload = () => resolve(reader.result));
+        await new Promise(
+          (resolve) => (reader.onload = () => resolve(reader.result)),
+        );
         base64String = reader.result as string;
+      } else {
+        toaster.error("Vui lòng chọn ảnh");
+        return;
       }
 
       await registerMutation.mutateAsync({
-        email: values.email, 
-        password: values.password, 
-        name: values.name, 
-        username: values.username, 
-        profileImage: base64String, 
+        email: values.email,
+        password: values.password,
+        name: values.name,
+        username: values.username,
+        profileImage: base64String,
       });
 
-      router.push("/auth/login"); 
+      toaster.success("Đăng ký thành công");
+      router.push("/auth/login");
     } catch (error) {
-      console.error(error);
+      toaster?.error("Lỗi ảnh hoặc Email đã được sử dụng");
+    } finally {
+      setTimeout(dismiss, 2000);
     }
   };
-  
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-tr from-red-100 to-cyan-100 px-4 py-12 sm:px-6 lg:px-8">
+      <Toast />
       <div className="w-full max-w-2xl space-y-8 rounded-md border-2 px-8 py-6 shadow-md shadow-slate-600">
         <div className="flex flex-col items-center">
           <Image

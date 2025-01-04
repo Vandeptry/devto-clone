@@ -61,7 +61,7 @@ const AuthButtons: React.FC<AuthButtonsProps> = ({ className }) => {
             <Bell size={24} />
           </button>
           {/* Kiểm tra ảnh provider hay ảnh upload */}
-          {(session?.user?.image ?? user?.uploadAva) && (
+          {(session?.user?.image ?? user?.uploadAva ?? session?.user.name) && (
             <DropdownMenu
               trigger={
                 <Image
