@@ -93,9 +93,9 @@ const LoginForm: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-tr from-cyan-100 to-red-100 px-4 py-12 sm:px-6 lg:px-8">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-white px-4 py-12 sm:px-6 lg:px-8">
       <Toast />
-      <div className="w-full max-w-2xl space-y-8 rounded-md border-2 px-8 py-6 shadow-md shadow-slate-600">
+      <div className="w-full max-w-2xl space-y-8 rounded-md px-8 py-6 shadow-sm">
         <div className="flex flex-col items-center">
           {/* <Logo /> */}
           <Image
