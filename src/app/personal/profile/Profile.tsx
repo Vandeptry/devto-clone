@@ -56,7 +56,7 @@ export default function ProfilePage() {
           </div>
         )}
         <Link
-          href="/edit-profile"
+          href="/personal/Setting"
           className='bg-blue-700 text-white font-semibold px-3 py-2 rounded-md md:-translate-y-28 -translate-y-16 absolute right-6 hover:bg-blue-800 hover:scale-95 transition-all duration-100 ease-linear '
         >
           Edit profile

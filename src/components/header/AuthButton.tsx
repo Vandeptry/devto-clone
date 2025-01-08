@@ -37,7 +37,7 @@ const AuthButtons: React.FC<AuthButtonsProps> = ({ className }) => {
     { label: "Dashboard", sub: null, href: "/personal/dashboard" },
     { label: "Create Post", sub: null, href: "/create-post" },
     { label: "Reading list", sub: null, href: "/reading-list" },
-    { label: "Settings", sub: null, href: "/settings" },
+    { label: "Settings", sub: null, href: "/Setting" },
     { label: "Sign Out", sub: null },
   ];
 

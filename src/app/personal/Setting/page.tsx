@@ -1,10 +1,10 @@
-// src/app/profile/page.tsx
-"use client"
+//src/app/Setting/page.tsx
+"use client";
 
 import dynamic from "next/dynamic";
 import Skeleton from "~/components/ui/skeleton";
 
-const profile = dynamic(() => import("./Profile"), {
+const ProfilePage = dynamic(() => import("./Setting"), {
   ssr: false,
   loading: () => (
     <div className="mx-auto max-w-screen-lg p-4">
@@ -12,4 +12,4 @@ const profile = dynamic(() => import("./Profile"), {
     </div>
   ),
 });
-export default profile;
+export default ProfilePage;
