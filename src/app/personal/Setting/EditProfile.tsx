@@ -54,10 +54,10 @@ export default function EditProfile() {
           reader.onerror = (error) =>
             reject(
               new Error(
-                (error.target as any)?.error?.message || "Failed to read image file"
+                (error.target as FileReader)?.error?.message || "Failed to read image file"
               )
             );
-        });
+        });        
       } catch (error) {
         alert("Lỗi cập nhật thông tin")
         console.error("Error reading image file:", error);
