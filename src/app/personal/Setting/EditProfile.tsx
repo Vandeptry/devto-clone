@@ -51,7 +51,7 @@ export default function EditProfile() {
           const reader = new FileReader();
           reader.readAsDataURL(imageFile);
           reader.onload = () => resolve(reader.result as string);
-          reader.onerror = (error) => reject(error);
+          reader.onerror = (error) => reject(new Error(error.type));
         });
       } catch (error) {
         console.error("Error reading image file:", error);
