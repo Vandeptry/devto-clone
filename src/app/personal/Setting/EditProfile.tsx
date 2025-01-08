@@ -51,9 +51,10 @@ export default function EditProfile() {
           const reader = new FileReader();
           reader.readAsDataURL(imageFile);
           reader.onload = () => resolve(reader.result as string);
-          reader.onerror = (error) => reject(new Error(error.type));
+          reader.onerror = (error) => reject(error);
         });
       } catch (error) {
+        alert("Lỗi cập nhật thông tin")
         console.error("Error reading image file:", error);
       }
     }
@@ -69,9 +70,6 @@ export default function EditProfile() {
         website,
         brandColor,
       });
-
-      // Cập nhật localStorage nếu cần
-      // ...
     } catch (error) {
       console.error(error);
     }

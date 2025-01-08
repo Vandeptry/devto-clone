@@ -29,80 +29,85 @@ export const editProfileRouter = createTRPCRouter({
       }
 
       try {
-        let avatarUrl = null;
+        // Transaction & timeout
+        await prisma.$transaction(
+          async (tx) => {
+            let avatarUrl = null;
 
-        // Xử lý ảnh
-        if (input.image) {
-          const serverSupabase = createClient(
-            process.env.SUPABASE_URL!,
-            process.env.SUPABASE_SERVICE_ROLE_KEY!,
-          );
+            // Xử lý ảnh
+            if (input.image) {
+              const serverSupabase = createClient(
+                process.env.SUPABASE_URL!,
+                process.env.SUPABASE_SERVICE_ROLE_KEY!
+              );
 
-          // Xóa ảnh cũ
-          await serverSupabase.storage
-            .from("avatars")
-            .remove([`${userId}/avatar.png`]);
+              // Xóa ảnh cũ
+              await serverSupabase.storage
+                .from("avatars")
+                .remove([`${userId}/avatar.png`]);
 
-          // Upload ảnh mới
-          const base64Data = input.image.replace(/^data:image\/\w+;base64,/, "");
-          try {
-            const buffer = Buffer.from(base64Data, "base64");
+              // Upload ảnh mới
+              const base64Data = input.image.replace(/^data:image\/\w+;base64,/, "");
+              try {
+                const buffer = Buffer.from(base64Data, "base64");
 
-            await serverSupabase.storage
-              .from("avatars")
-              .upload(`${userId}/avatar.png`, buffer, {
-                upsert: true,
-                contentType: "image/png",
-              });
+                await serverSupabase.storage
+                  .from("avatars")
+                  .upload(`${userId}/avatar.png`, buffer, {
+                    upsert: true,
+                    contentType: "image/png",
+                  });
 
-            // Lấy public URL
-            const { data } = serverSupabase.storage
-              .from("avatars")
-              .getPublicUrl(`${userId}/avatar.png`);
+                // Lấy public URL
+                const { data } = serverSupabase.storage
+                  .from("avatars")
+                  .getPublicUrl(`${userId}/avatar.png`);
 
-            avatarUrl = data?.publicUrl;
+                avatarUrl = data?.publicUrl;
 
-            if (!avatarUrl) {
-              throw new Error("Unable to generate public URL for the avatar.");
+                if (!avatarUrl) {
+                  throw new Error("Unable to generate public URL for the avatar.");
+                }
+              } catch (error) {
+                console.error("Error converting image to buffer:", error);
+                throw new TRPCError({
+                  code: "BAD_REQUEST",
+                  message: "Invalid image data",
+                });
+              }
             }
-          } catch (error) {
-            console.error("Error converting image to buffer:", error);
-            throw new TRPCError({
-              code: "BAD_REQUEST",
-              message: "Invalid image data",
+
+            // Cập nhật User
+            await tx.user.update({
+              where: { id: userId },
+              data: {
+                name: input.name,
+                email: input.email,
+                username: input.username,
+                ...(avatarUrl && { image: avatarUrl, uploadAva: avatarUrl }),
+              },
             });
-          }
-        }
 
-        // Cập nhật User
-        await prisma.user.update({
-          where: { id: userId },
-          data: {
-            name: input.name,
-            email: input.email,
-            username: input.username,
-            ...(avatarUrl && { image: avatarUrl, uploadAva: avatarUrl }), 
+            // Cập nhật Profile
+            await tx.profile.upsert({
+              where: { userId: userId },
+              update: {
+                bio: input.bio,
+                location: input.location,
+                website: input.website,
+                brandColor: input.brandColor,
+              },
+              create: {
+                userId: userId,
+                bio: input.bio,
+                location: input.location,
+                website: input.website,
+                brandColor: input.brandColor,
+              },
+            });
           },
-        });
-
-        // Cập nhật Profile
-        await prisma.profile.upsert({
-          where: { userId: userId },
-          update: {
-            bio: input.bio,
-            location: input.location,
-            website: input.website,
-            brandColor: input.brandColor,
-          },
-          create: {
-            userId: userId,
-            bio: input.bio,
-            location: input.location,
-            website: input.website,
-            brandColor: input.brandColor,
-          },
-        });
-
+          { timeout: 10000 }
+        );
       } catch (error) {
         console.error(error);
         throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
