@@ -51,7 +51,8 @@ export default function EditProfile() {
           const reader = new FileReader();
           reader.readAsDataURL(imageFile);
           reader.onload = () => resolve(reader.result as string);
-          reader.onerror = (error) => reject(error);
+          reader.onerror = (error) =>
+            reject(new Error((error.target as any)?.error?.message)); 
         });
       } catch (error) {
         alert("Lỗi cập nhật thông tin")
