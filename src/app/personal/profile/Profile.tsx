@@ -18,13 +18,15 @@ export default function ProfilePage() {
     }
   }, []);
 
-  const formattedDate = user?.joinedAt
-    ? new Date(user.joinedAt).toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric'
-    })
-    : '';
+  const dateInput = user?.joinedAt ?? session?.user.joinedAt;
+
+  const formattedDate = dateInput 
+      ? new Date(dateInput).toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric'
+        }) 
+      : '';
 
   return (
     <>

@@ -25,4 +25,10 @@ export interface IUser {
   email?: string;
   joinedAt?: Date;
   image?: string;
+  profile?: {
+    bio: string | null;
+    location: string | null;
+    website: string | null;
+    brandColor: string | null;
+  } | null;
 }

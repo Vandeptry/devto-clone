@@ -5,13 +5,15 @@ import Link from "next/link";
 import { User, Facebook, Github, Mail, Twitter, Trees } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import {credentialsSchema} from "~/app/props/schema"
+import { credentialsSchema } from "~/app/props/schema";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EditProfile from "./EditProfile";
 import EditAccount from "./EditAccount";
 import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { IUser } from "~/app/props/interface";
 
 const menuItems = [
   {
@@ -61,6 +63,15 @@ const socialLinks = [
 export default function Setting() {
   const [activeTab, setActiveTab] = useState("profile");
   const pathname = usePathname();
+  const { data: session } = useSession();
+  const [user, setUser] = useState<IUser | null>(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser) as IUser);
+    }
+  }, []);
   const methods = useForm<z.infer<typeof credentialsSchema>>({
     defaultValues: {
       password: "",
@@ -93,7 +104,11 @@ export default function Setting() {
         {activeTab === "profile" && (
           <>
             <a href="personal" className="text-3xl font-semibold text-blue-700">
-              @Dev
+              @
+              {session?.user.username ??
+                user?.username ??
+                session?.user.name ??
+                user?.name}
             </a>
             <div className="border-1 flex flex-col gap-2 rounded-lg bg-slate-100 p-8 text-center">
               {socialLinks.map((link) => (
@@ -108,13 +123,13 @@ export default function Setting() {
                 </Link>
               ))}
             </div>
-
-            {/* PROFILE */}
             <EditProfile />
           </>
         )}
-        {/* ACCOUNT */}
-        <EditAccount />
+
+        {activeTab === "account" && (
+          <EditAccount />
+        )}
       </div>
     </div>
   );

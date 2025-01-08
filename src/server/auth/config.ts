@@ -21,6 +21,13 @@ declare module "next-auth" {
       id: string;
       uploadAva: string | null;
       username:string|null;
+      joinedAt:Date|null;
+      profile: {
+        bio: string | null;
+        location: string | null;
+        website: string | null;
+        brandColor: string | null;
+      } | null;
     } & DefaultSession["user"];
   }
 
@@ -106,17 +113,30 @@ export const authConfig: NextAuthConfig = {
       }
       return token;
     },
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
+    session: async ({ session, user }) => {
+      const profile = await db.profile.findUnique({
+        where: { userId: user.id },
+        select: {
+          bio: true,
+          location: true,
+          website: true,
+          brandColor: true,
+        },
+      });
+
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: user.id,
+          profile,
+        },
+      };
+    },
   },
   pages: {
     signIn: "/auth/login",
-    error: "/auth/error",
+    error: "/auth/login",
     verifyRequest: "/auth/verify-request",
   },
 };
