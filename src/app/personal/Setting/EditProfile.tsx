@@ -54,7 +54,7 @@ export default function EditProfile() {
           reader.onerror = (error) =>
             reject(
               new Error(
-                (error.target as FileReader)?.error?.message || "Failed to read image file"
+                (error.target as FileReader)?.error?.message ?? "Failed to read image file"
               )
             );
         });        
@@ -122,7 +122,7 @@ export default function EditProfile() {
           <div className="my-2 flex flex-col gap-4">
             <label className="font-semibold">Profile image</label>
             <div className="flex gap-4">
-              {session?.user.image || session?.user.uploadAva ? (
+              {session?.user.image ?? session?.user.uploadAva ? (
                 <Image
                   src={session?.user.image ?? session?.user.uploadAva??"public/logo_devto.png"}
                   alt="Avatar"
