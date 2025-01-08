@@ -20,6 +20,7 @@ declare module "next-auth" {
     user: {
       id: string;
       uploadAva: string | null;
+      username:string|null;
     } & DefaultSession["user"];
   }
 

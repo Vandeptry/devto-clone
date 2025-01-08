@@ -5,29 +5,21 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-
-interface User {
-  uploadAva: string;
-  name?: string;
-  username?: string;
-  email?: string;
-  createdAt?: Date;
-  image?: string;
-}
+import { IUser } from "~/app/props/interface";
 
 export default function ProfilePage() {
   const { data: session } = useSession();
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<IUser | null>(null);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
-      setUser(JSON.parse(storedUser) as User);
+      setUser(JSON.parse(storedUser) as IUser);
     }
   }, []);
 
-  const formattedDate = user?.createdAt
-    ? new Date(user.createdAt).toLocaleDateString('en-US', {
+  const formattedDate = user?.joinedAt
+    ? new Date(user.joinedAt).toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
       year: 'numeric'

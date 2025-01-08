@@ -17,3 +17,12 @@ export interface ToasterProps {
     | undefined;
   dismiss: () => void;
 }
+
+export interface IUser {
+  uploadAva: string;
+  name?: string;
+  username?: string;
+  email?: string;
+  joinedAt?: Date;
+  image?: string;
+}
