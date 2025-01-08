@@ -52,7 +52,11 @@ export default function EditProfile() {
           reader.readAsDataURL(imageFile);
           reader.onload = () => resolve(reader.result as string);
           reader.onerror = (error) =>
-            reject(new Error((error.target as any)?.error?.message)); 
+            reject(
+              new Error(
+                (error.target as any)?.error?.message || "Failed to read image file"
+              )
+            );
         });
       } catch (error) {
         alert("Lỗi cập nhật thông tin")
