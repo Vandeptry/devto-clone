@@ -14,10 +14,13 @@ import {
   Button,
 } from "~/components/ui/form";
 import { api } from "~/trpc/react";
+import { useToast } from "~/components/hooks/useToast";
 
 export default function EditProfile() {
   const { data: session } = useSession();
   const [user, setUser] = useState<IUser | null>(null);
+  const { toaster, dismiss } = useToast();
+
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -54,17 +57,19 @@ export default function EditProfile() {
           reader.onerror = (error) =>
             reject(
               new Error(
-                (error.target as FileReader)?.error?.message ?? "Failed to read image file"
-              )
+                (error.target as FileReader)?.error?.message ??
+                  "Failed to read image file",
+              ),
             );
-        });        
+        });
       } catch (error) {
-        alert("Lỗi cập nhật thông tin")
+        alert("Lỗi cập nhật thông tin");
         console.error("Error reading image file:", error);
       }
     }
 
     try {
+      toaster.loading("Đang cập nhật, vui lòng đợi...");
       await updateProfileMutation.mutateAsync({
         name,
         email,
@@ -75,8 +80,12 @@ export default function EditProfile() {
         website,
         brandColor,
       });
+      toaster.success("Cập nhật hồ sơ thành công")
     } catch (error) {
       console.error(error);
+      toaster.error("Lỗi cập nhật hồ sơ");
+    } finally{
+      setTimeout(dismiss,8000)
     }
   };
 
@@ -122,9 +131,13 @@ export default function EditProfile() {
           <div className="my-2 flex flex-col gap-4">
             <label className="font-semibold">Profile image</label>
             <div className="flex gap-4">
-              {session?.user.image ?? session?.user.uploadAva ? (
+              {(session?.user.image ?? session?.user.uploadAva) ? (
                 <Image
-                  src={session?.user.image ?? session?.user.uploadAva??"public/logo_devto.png"}
+                  src={
+                    session?.user.image ??
+                    session?.user.uploadAva ??
+                    "public/logo_devto.png"
+                  }
                   alt="Avatar"
                   width={50}
                   height={50}

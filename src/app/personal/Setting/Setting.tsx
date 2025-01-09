@@ -14,6 +14,7 @@ import EditAccount from "./EditAccount";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { IUser } from "~/app/props/interface";
+import { Toast } from "~/components/ui/toast";
 
 
 const menuItems = [
@@ -83,6 +84,7 @@ export default function Setting() {
   };
   return (
     <div className="mx-auto my-4 mt-10 flex w-full max-w-screen-lg flex-row gap-8">
+      <Toast />
       <div className="w-1/3">
         <nav className="space-y-1">
           {menuItems.map((item) => (

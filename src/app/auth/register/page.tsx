@@ -37,7 +37,7 @@ export default function Register() {
           />
           <h2
             id="signup"
-            className="mt-6 to-red-600 bg-clip-text text-center text-3xl font-bold tracking-tight text-transparent lg:text-4xl"
+            className="mt-6 to-red-600 bg-clip-text text-center text-3xl font-bold lg:text-4xl"
           >
             Create to your account
           </h2>

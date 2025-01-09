@@ -106,7 +106,7 @@ const LoginForm: React.FC = () => {
           />
           <h2
             id="signin"
-            className="mt-6 bg-gradient-to-tr from-red-600 to-slate-600 bg-clip-text text-center text-3xl font-bold tracking-tight text-transparent lg:text-4xl"
+            className="mt-6 bg-clip-text text-center text-3xl font-bold lg:text-4xl"
           >
             Sign in to your account
           </h2>
