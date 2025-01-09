@@ -19,6 +19,7 @@ export interface ToasterProps {
 }
 
 export interface IUser {
+  id: string;
   uploadAva: string;
   name?: string;
   username?: string;

@@ -1,11 +1,16 @@
 // src/server/api/routers/user/editProfile.ts
+
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { TRPCError } from "@trpc/server";
 import { createClient } from "@supabase/supabase-js";
 import { PrismaClient } from "@prisma/client";
+import { getSessionMiddleware } from "../../middleware/getSession";
+//import { useEffect, useState } from "react";
+//import { IUser } from "~/app/props/interface";
 
 const prisma = new PrismaClient();
+//const [user, setUser] = useState<IUser | null>(null);
 
 const editProfileSchema = z.object({
   name: z.string().min(1).max(50),
@@ -18,11 +23,20 @@ const editProfileSchema = z.object({
   brandColor: z.string().optional(),
 });
 
+// useEffect(() => {
+//   const storedUser = localStorage.getItem("user");
+//   if (storedUser) {
+//     setUser(JSON.parse(storedUser) as IUser);
+//   }
+// }, []);
+
 export const editProfileRouter = createTRPCRouter({
   updateProfile: publicProcedure
     .input(editProfileSchema.partial())
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.session?.user.id;
+      console.log(" Id credentials từ file editProfile.ts: ", userId);
+      console.log(" Session từ file editProfile.ts: ", ctx.session);
 
       if (!userId) {
         throw new TRPCError({ code: "UNAUTHORIZED" });

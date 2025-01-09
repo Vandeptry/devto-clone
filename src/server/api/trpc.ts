@@ -118,16 +118,35 @@ export const publicProcedure = t.procedure.use(timingMiddleware);
  *
  * @see https://trpc.io/docs/procedures
  */
+const isAuthed = t.middleware(async ({ path, type, next, ctx }) => {
+  if (!ctx.session || !ctx.session.user) {
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message: "Bạn cần đăng nhập để thực hiện hành động này",
+    });
+  }
+
+  // Lấy sessionToken từ database dựa trên userId
+  const dbSession = await db.session.findFirst({ 
+    where: { userId: ctx.session.user.id }, 
+  });
+
+  // Kiểm tra xem sessionToken có hợp lệ hay không
+  if (!dbSession || dbSession.expires < new Date()) {
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message: "Phiên đăng nhập không hợp lệ",
+    });
+  }
+
+  return next({
+    ctx: {
+      session: { ...ctx.session, user: ctx.session.user },
+    },
+  });
+});
+
 export const protectedProcedure = t.procedure
   .use(timingMiddleware)
-  .use(({ ctx, next }) => {
-    if (!ctx.session || !ctx.session.user) {
-      throw new TRPCError({ code: "UNAUTHORIZED" });
-    }
-    return next({
-      ctx: {
-        // infers the `session` as non-nullable
-        session: { ...ctx.session, user: ctx.session.user },
-      },
-    });
-  });
+  .use(isAuthed);
+  

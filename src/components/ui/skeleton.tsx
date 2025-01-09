@@ -14,7 +14,7 @@ const Skeleton: React.FC<SkeletonProps> = ({
 }) => {
   return (
     <div
-      className={`animate-pulse items-center ${
+      className={`animate-pulse items-center bg-red-500 ${
         rounded ? 'rounded-md' : ''
       }`}
       style={{ width, height }}

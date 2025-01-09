@@ -13,7 +13,7 @@ import {
   Button,
 } from "~/components/ui/form";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useRouter } from "next/navigation";
@@ -21,9 +21,12 @@ import { z } from "zod";
 import { api } from "~/trpc/react";
 import { Toast } from "~/components/ui/toast";
 import { useToast } from "~/components/hooks/useToast";
+import { useSession } from "next-auth/react";
+import { IUser } from "~/app/props/interface";
 
 const LoginForm: React.FC = () => {
   const { toaster, dismiss } = useToast();
+  const { data: session } = useSession();
   const methods = useForm<z.infer<typeof credentialsSchema>>({
     defaultValues: {
       email: "",
@@ -80,6 +83,8 @@ const LoginForm: React.FC = () => {
           email: data.email,
           password: data.password,
         });
+        //fix credentials session
+
         toaster?.success("Đăng nhập thành công!");
         localStorage.removeItem("user");
         localStorage.setItem("user", JSON.stringify(user));

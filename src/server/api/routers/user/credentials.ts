@@ -4,6 +4,7 @@ import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { publicProcedure } from "~/server/api/trpc";
 import bcrypt from "bcrypt";
+import { randomUUID } from "crypto";
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -36,6 +37,44 @@ export const credentialsRouter = publicProcedure
         code: "UNAUTHORIZED",
         message: "Invalid password",
       });
+    }
+    // // Init session for credentials login
+    // if (!ctx.session) {
+    //   ctx.session = {
+    //     user: {
+    //       id: '', 
+    //       email: null,
+    //       name: null,
+    //       image: null,
+    //       uploadAva: null,
+    //       username: null,
+    //       joinedAt: null,
+    //       profile: {
+    //         bio: null,
+    //         location: null,
+    //         website: null,
+    //         brandColor: null
+    //       }
+    //     },
+    //     expires: new Date().toString(),
+    //   };
+    // }
+
+
+    if (ctx.session) {
+      const updatedUser = await ctx.db.user.findUnique({
+        where: { email },
+        include: { profile: true },
+      });
+
+      if (updatedUser) {
+        ctx.session.user = updatedUser;
+      } else {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Failed to update session",
+        });
+      }
     }
 
     return user;
