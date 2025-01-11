@@ -9,6 +9,7 @@ import bcrypt from "bcrypt";
 import { db } from "~/server/db";
 import { z } from "zod";
 import { randomUUID } from "crypto";
+import { type User } from "@prisma/client";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -126,9 +127,16 @@ export const authConfig: NextAuthConfig = {
   callbacks: {
     jwt: async ({ token, user }) => {
       if (user) {
-        token.id = user.id;
-        token.name = user.name;
-        token.email = user.email;
+        const userWithProfile = user as User & { profile: any };
+
+        token.id = userWithProfile.id;
+        token.name = userWithProfile.name;
+        token.email = userWithProfile.email;
+        token.username = userWithProfile.username;
+        token.image = userWithProfile.image;
+        token.uploadAva = userWithProfile.uploadAva;
+        token.joinedAt = userWithProfile.joinedAt;
+        token.profile = userWithProfile.profile; 
         //More fields
       }
       return token;
