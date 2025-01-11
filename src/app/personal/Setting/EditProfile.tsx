@@ -15,6 +15,7 @@ import {
 } from "~/components/ui/form";
 import { api } from "~/trpc/react";
 import { useToast } from "~/components/hooks/useToast";
+import { JWT } from "next-auth/jwt";
 
 export default function EditProfile() {
   const { data: session } = useSession();

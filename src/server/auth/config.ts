@@ -67,6 +67,7 @@ export const authConfig: NextAuthConfig = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
+        console.log("Credentials:", credentials);
         try {
           const result = credentialsSchema.safeParse(credentials);
 
@@ -96,13 +97,14 @@ export const authConfig: NextAuthConfig = {
             return null;
           }
 
+          // Xóa session trùng lặp
           await db.session.deleteMany({
             where: { userId: user.id },
           });
 
           const sessionToken = randomUUID();
 
-          // Tạo session mới khi đăng nhập bằng credentials
+          // Tạo session credentials
           const session = await db.session.create({
             data: {
               userId: user.id,
@@ -111,7 +113,7 @@ export const authConfig: NextAuthConfig = {
             },
           });
 
-          // Trả về user object với sessionToken
+          // Trả về user & sessionToken
           return {
             ...user,
             sessionToken: session.sessionToken,
@@ -126,25 +128,30 @@ export const authConfig: NextAuthConfig = {
   adapter: PrismaAdapter(db),
   callbacks: {
     jwt: async ({ token, user }) => {
+      console.log("User object in JWT callback:", user);
+      console.log("Token object in JWT callback:", token);
       if (user) {
         const userWithProfile = user as User & { profile: any };
 
-        token.id = userWithProfile.id;
+        token.id = typeof user.id === 'string' ? userWithProfile.id : user.id;
         token.name = userWithProfile.name;
         token.email = userWithProfile.email;
         token.username = userWithProfile.username;
         token.image = userWithProfile.image;
         token.uploadAva = userWithProfile.uploadAva;
         token.joinedAt = userWithProfile.joinedAt;
-        token.profile = userWithProfile.profile; 
+        token.profile = userWithProfile.profile;
         //More fields
       }
       return token;
     },
     session: async ({ session, token }) => {
+      console.log("Token object in Session callback:", token);
+      console.log("Session object in Session callback:", session);
       const profile = await db.profile.findUnique({
         where: { userId: token.id as string },
         select: {
+          user:true,
           bio: true,
           location: true,
           website: true,
@@ -156,9 +163,12 @@ export const authConfig: NextAuthConfig = {
       session.user = {
         ...session.user,
         id: token.id as string,
+        username: profile?.user?.username ?? null,
+        image:profile?.user.image??profile?.user.uploadAva,
+        joinedAt:profile?.user.joinedAt as Date,
         profile,
       };
-      session.sessionToken = token.sessionToken as string; // Gán sessionToken vào session
+      session.sessionToken = token.sessionToken as string;
 
       return session;
     },
