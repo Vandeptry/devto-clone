@@ -31,6 +31,7 @@ export default function EditProfile() {
   const updateProfileMutation = api.user.editprofile.updateProfile.useMutation({
     async onSuccess() {
       await utils.user.editprofile.invalidate();
+      window.location.reload();
     },
   });
 
@@ -80,7 +81,8 @@ export default function EditProfile() {
         website,
         brandColor,
       });
-      toaster.success("Cập nhật hồ sơ thành công")
+      toaster.success("Cập nhật hồ sơ thành công");
+      
     } catch (error) {
       console.error(error);
       toaster.error("Lỗi cập nhật hồ sơ");
@@ -125,7 +127,7 @@ export default function EditProfile() {
               className="rounded-lg border-2 p-2 outline-blue-500"
               type="text"
               name="username"
-              defaultValue={user?.username ?? session?.user.username ?? ""}
+              defaultValue={ session?.user.username ?? user?.username ??""}
             />
           </div>
           <div className="my-2 flex flex-col gap-4">

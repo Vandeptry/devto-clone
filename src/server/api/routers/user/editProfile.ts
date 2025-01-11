@@ -44,6 +44,7 @@ export const editProfileRouter = createTRPCRouter({
       console.log(" Session từ file editProfile.ts: ", ctx.session);
 
       if (!userId) {
+        console.log("Lỗi từ editProfle")
         throw new TRPCError({ code: "UNAUTHORIZED" });
       }
 
@@ -162,6 +163,7 @@ export const editProfileRouter = createTRPCRouter({
           },
           { timeout: 10000 },
         );
+        
       } catch (error) {
         console.error(error);
         throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });

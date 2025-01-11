@@ -125,7 +125,7 @@ export const authConfig: NextAuthConfig = {
         token.id = user.id;
         token.name = user.name;
         token.email = user.email;
-        // ... thêm các thông tin user khác cần thiết
+        //More fields
       }
       return token;
     },

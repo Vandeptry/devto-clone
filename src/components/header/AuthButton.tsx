@@ -31,7 +31,7 @@ const AuthButtons: React.FC<AuthButtonsProps> = ({ className }) => {
   const menuItems = [
     {
       label: `${session?.user.name ?? user?.name}`,
-      sub: `@${session?.user.name ?? user?.username}`,
+      sub: `@${session?.user.username ?? user?.username??session?.user.name??user?.name}`,
       href: `/personal/profile`,
     },
     { label: "Dashboard", sub: null, href: "/personal/dashboard" },
