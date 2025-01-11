@@ -12,13 +12,9 @@ declare module 'next' {
 }
 
 export async function getSessionMiddleware(
-  opts: {
-    req: NextApiRequest
-    res: NextApiResponse
-  }
+  req: NextApiRequest,
+  res: NextApiResponse,
 ) {
-  const { req, res } = opts; // Lấy req và res từ opts
-
   // Lấy sessionToken từ cookie
   const sessionToken = req.cookies["next-auth.session-token"];
 

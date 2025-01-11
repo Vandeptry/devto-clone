@@ -38,7 +38,6 @@ const credentialsSchema = z.object({
   email: z.string().email("Invalid email address"),
   password: z.string().min(1, "Password is required"),
 });
-const sessionToken = randomUUID();
 
 /**
  * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
@@ -96,12 +95,14 @@ export const authConfig: NextAuthConfig = {
             return null;
           }
 
+          const sessionToken = randomUUID();
+
           // Tạo session mới khi đăng nhập bằng credentials
           const session = await db.session.create({
             data: {
               userId: user.id,
-              sessionToken, // Thêm sessionToken vào data
-              expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // Hết hạn sau 30 ngày
+              sessionToken,
+              expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
             },
           });
 
@@ -121,14 +122,10 @@ export const authConfig: NextAuthConfig = {
   callbacks: {
     jwt: async ({ token, user }) => {
       if (user) {
-        // Lấy session từ database dựa trên userId
-        const dbSession = await db.session.findFirst({
-          where: { userId: user.id as string },
-        });
-        if (dbSession) {
-          token.id = user.id;
-          token.sessionToken = dbSession.sessionToken;
-        }
+        token.id = user.id;
+        token.name = user.name;
+        token.email = user.email;
+        // ... thêm các thông tin user khác cần thiết
       }
       return token;
     },
@@ -153,6 +150,9 @@ export const authConfig: NextAuthConfig = {
 
       return session;
     },
+  },
+  session:{
+    strategy:"jwt",
   },
   pages: {
     signIn: "/auth/login",

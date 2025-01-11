@@ -32,6 +32,11 @@ const editProfileSchema = z.object({
 
 export const editProfileRouter = createTRPCRouter({
   updateProfile: publicProcedure
+    // .use(async ({ req, res, next }) => {
+    //   // Sử dụng middleware ở đây
+    //   await getSessionMiddleware({ req, res });
+    //   return next();
+    // })
     .input(editProfileSchema.partial())
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.session?.user.id;
