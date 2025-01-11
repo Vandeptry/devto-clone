@@ -95,6 +95,10 @@ export const authConfig: NextAuthConfig = {
             return null;
           }
 
+          await db.session.deleteMany({
+            where: { userId: user.id },
+          });
+
           const sessionToken = randomUUID();
 
           // Tạo session mới khi đăng nhập bằng credentials
@@ -151,8 +155,8 @@ export const authConfig: NextAuthConfig = {
       return session;
     },
   },
-  session:{
-    strategy:"jwt",
+  session: {
+    strategy: "jwt",
   },
   pages: {
     signIn: "/auth/login",
