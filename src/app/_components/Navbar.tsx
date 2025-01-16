@@ -44,7 +44,12 @@ export function Navbar({ setIsLeftbarOpen }: NavbarProps) {
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      const parsedUser = JSON.parse(storedUser) as { 
+        uploadAva: string;
+        name?: string;
+        username?: string;
+      };
+      setUser(parsedUser); 
     }
   }, []);
 
