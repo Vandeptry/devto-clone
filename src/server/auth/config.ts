@@ -24,6 +24,7 @@ declare module "next-auth" {
       uploadAva: string | null;
       username: string | null;
       joinedAt: Date | null;
+      hashedPassword: string | null;
       profile: {
         bio: string | null;
         location: string | null;
@@ -31,7 +32,7 @@ declare module "next-auth" {
         brandColor: string | null;
       } | null;
     } & DefaultSession["user"];
-    sessionToken: string; // Thêm sessionToken vào interface Session
+    sessionToken: string;
   }
 }
 
@@ -67,7 +68,7 @@ export const authConfig: NextAuthConfig = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        console.log("Credentials:", credentials);
+        //console.log("Credentials:", credentials);
         try {
           const result = credentialsSchema.safeParse(credentials);
 
@@ -128,30 +129,39 @@ export const authConfig: NextAuthConfig = {
   adapter: PrismaAdapter(db),
   callbacks: {
     jwt: async ({ token, user }) => {
-      console.log("User object in JWT callback:", user);
-      console.log("Token object in JWT callback:", token);
+      //console.log("User in JWT callback:", user);
+      //console.log("Token in JWT callback:", token);
       if (user) {
-        const userWithProfile = user as User & { profile: any };
-
-        token.id = typeof user.id === 'string' ? userWithProfile.id : user.id;
-        token.name = userWithProfile.name;
-        token.email = userWithProfile.email;
-        token.username = userWithProfile.username;
-        token.image = userWithProfile.image;
-        token.uploadAva = userWithProfile.uploadAva;
-        token.joinedAt = userWithProfile.joinedAt;
-        token.profile = userWithProfile.profile;
-        //More fields
+        const prismaUser = user as User;
+        const profile = await db.profile.findUnique({
+          where: { userId: user.id as string },
+          select: {
+            bio: true,
+            location: true,
+            website: true,
+            brandColor: true,
+            //More fields
+          },
+        });
+        token.id = typeof user.id === "string" ? user.id : user.id;
+        token.name = prismaUser.name;
+        token.email = prismaUser.email;
+        token.picture = prismaUser.image;
+        token.username = prismaUser.username;
+        token.image = prismaUser.image;
+        token.uploadAva = prismaUser.uploadAva;
+        token.joinedAt = prismaUser.joinedAt;
+        token.profile = profile;
       }
       return token;
     },
     session: async ({ session, token }) => {
-      console.log("Token object in Session callback:", token);
-      console.log("Session object in Session callback:", session);
+      //console.log("Token object in Session callback:", token);
+      //console.log("Session object in Session callback:", session);
       const profile = await db.profile.findUnique({
         where: { userId: token.id as string },
         select: {
-          user:true,
+          user: true,
           bio: true,
           location: true,
           website: true,
@@ -159,13 +169,14 @@ export const authConfig: NextAuthConfig = {
         },
       });
 
-      // Thêm thông tin user và sessionToken vào session
+      // Thêm thông tin user đối với credentials
       session.user = {
         ...session.user,
         id: token.id as string,
         username: profile?.user?.username ?? null,
-        image:profile?.user.image??profile?.user.uploadAva,
-        joinedAt:profile?.user.joinedAt as Date,
+        image: profile?.user.image ?? profile?.user.uploadAva,
+        joinedAt: (profile?.user.joinedAt as Date) ?? null,
+        hashedPassword: profile?.user.hashedPassword ?? null,
         profile,
       };
       session.sessionToken = token.sessionToken as string;

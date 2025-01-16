@@ -3,6 +3,7 @@
 // prisma/schema.prisma
 generator client {
     provider = "prisma-client-js"
+    //previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
@@ -13,6 +14,7 @@ datasource db {
     // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
     url      = env("DATABASE_URL")
     //enableQueryCaching = false
+    //poolSize = 10
 }
 
 model Post {

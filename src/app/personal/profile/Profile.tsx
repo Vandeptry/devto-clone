@@ -1,22 +1,27 @@
 //src/app/personal/profile/Profile.tsx
-"use client"
 
 import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+//import { useEffect, useState } from "react";
 import { IUser } from "~/app/props/interface";
+import { auth } from "~/server/auth";
+import { useUser } from "~/components/hooks/useUser";
 
 export default function ProfilePage() {
-  const { data: session } = useSession();
-  const [user, setUser] = useState<IUser | null>(null);
+  //const { data: session } = useSession();
+  //const session = await auth();
+  const session = useUser();
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser) as IUser);
-    }
-  }, []);
+  const user = session?.user;
+  // const [user, setUser] = useState<IUser | null>(null);
+
+  // useEffect(() => {
+  //   const storedUser = localStorage.getItem("user");
+  //   if (storedUser) {
+  //     setUser(JSON.parse(storedUser) as IUser);
+  //   }
+  // }, []);
 
   const dateInput = user?.joinedAt ?? session?.user.joinedAt;
 

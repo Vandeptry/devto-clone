@@ -16,7 +16,6 @@ import { useSession } from "next-auth/react";
 import { IUser } from "~/app/props/interface";
 import { Toast } from "~/components/ui/toast";
 
-
 const menuItems = [
   {
     id: "profile",
@@ -130,9 +129,12 @@ export default function Setting() {
           </>
         )}
 
-        {activeTab === "account" && (
-          <EditAccount />
-        )}
+        {activeTab === "account" &&
+          (session?.user && session.user.hashedPassword ? (
+            <EditAccount />
+          ) : (
+            <div>This tab just for credentials account</div>
+          ))}
       </div>
     </div>
   );

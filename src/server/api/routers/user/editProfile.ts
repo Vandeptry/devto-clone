@@ -5,7 +5,7 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { TRPCError } from "@trpc/server";
 import { createClient } from "@supabase/supabase-js";
 import { PrismaClient } from "@prisma/client";
-import { getSessionMiddleware } from "../../middleware/getSession";
+//import { getSessionMiddleware } from "../../middleware/getSession";
 //import { useEffect, useState } from "react";
 //import { IUser } from "~/app/props/interface";
 
@@ -141,6 +141,7 @@ export const editProfileRouter = createTRPCRouter({
                   uploadAva: true,
                   username: true,
                   joinedAt: true,
+                  hashedPassword:true,
                   profile: {
                     select: {
                       bio: true,
