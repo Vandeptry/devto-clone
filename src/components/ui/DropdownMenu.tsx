@@ -5,6 +5,7 @@ import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { signOut } from "next-auth/react";
 import { useRouter,redirect } from 'next/navigation';
+import Cookies from 'js-cookie'
 
 interface DropdownMenuItem {
   label: string;
@@ -23,6 +24,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ trigger, items }) => {
   const handleSignOut = async () => {
     await signOut({callbackUrl:'/'});
     localStorage.removeItem("user");
+    Cookies.remove("__Host-next-auth.csrf-token", { path: '/', secure: true });
   };
   return (
     <Menu as="div" className="relative inline-block text-left">
